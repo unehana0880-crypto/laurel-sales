@@ -68,6 +68,8 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--dark
 
 .btn-save{width:100%;padding:15px;background:var(--green);color:#fff;border:none;border-radius:12px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;letter-spacing:.5px;}
 .btn-save:active{opacity:.8;}
+.btn-excel{display:block;width:calc(100% - 28px);margin:0 14px 16px;padding:14px;background:var(--dark);color:var(--gold);border:none;border-radius:12px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;letter-spacing:.5px;text-align:center;}
+.btn-excel:active{opacity:.8;}
 .alert{padding:11px 13px;border-radius:10px;font-size:12px;margin-bottom:12px;display:none;}
 .alert.ok{background:var(--green-bg);color:var(--green);border:1px solid #B0D4BC;display:block;}
 .alert.err{background:#FDEAEA;color:var(--red);border:1px solid #F9C0C0;display:block;}
@@ -207,6 +209,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--dark
     <div class="card-title">💰 직접 결제 현황</div>
     <div id="payStats"></div>
   </div>
+  <button class="btn-excel" id="btnExcel" onclick="exportExcel()">📥 이달 엑셀 다운로드</button>
 </div>
 
 <script type="module">
@@ -227,13 +230,19 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
 // ── 상태 ──
-let viewYear = new Date().getFullYear();
-let viewMonth = new Date().getMonth();
-let allEntries = {}; // { "2026-04-01": {klook,kkday,insta,wa,walkin,tel,pay,memo} }
+window.viewYear = new Date().getFullYear();
+window.viewMonth = new Date().getMonth();
+window.allEntries = {};
+let viewYear = window.viewYear;
+let viewMonth = window.viewMonth;
+let allEntries = window.allEntries;
 
 // ── Firebase ──
 onValue(ref(db, 'sales'), (snap) => {
   allEntries = snap.val() || {};
+  window.allEntries = allEntries;
+  window.viewYear = viewYear;
+  window.viewMonth = viewMonth;
   renderLog(); renderStats();
   setSyncStatus('ok');
 });
@@ -266,6 +275,8 @@ window.changeMonth = (d) => {
   viewMonth += d;
   if (viewMonth > 11) { viewMonth=0; viewYear++; }
   if (viewMonth < 0)  { viewMonth=11; viewYear--; }
+  window.viewYear = viewYear;
+  window.viewMonth = viewMonth;
   renderLog(); renderStats();
 };
 
@@ -464,6 +475,207 @@ async function seedWeek1() {
 seedWeek1();
 
 renderLog(); renderStats();
+</script>
+
+<!-- ExcelJS for browser-side xlsx export -->
+<script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
+<script>
+window.exportExcel = async function() {
+  const btn = document.getElementById('btnExcel');
+  btn.textContent = '⏳ 생성 중...';
+  btn.disabled = true;
+
+  try {
+    const wb = new ExcelJS.Workbook();
+    wb.creator = 'Laurel Studio';
+
+    // ── 월 정보 ──
+    const MO = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
+    const mk = `${viewYear}-${String(viewMonth+1).padStart(2,'0')}`;
+    const monthName = `${viewYear}년 ${MO[viewMonth]}`;
+
+    // ── 시트1: 일별 매출 ──
+    const ws = wb.addWorksheet('일별매출_' + mk);
+    ws.views = [{ showGridLines: false }];
+
+    // 타이틀
+    ws.mergeCells('A1:K1');
+    const titleCell = ws.getCell('A1');
+    titleCell.value = `Laurel Studio — 매출 장부 ${monthName}`;
+    titleCell.fill = { type:'pattern', pattern:'solid', fgColor:{argb:'FF1C1917'} };
+    titleCell.font = { bold:true, color:{argb:'FFF4F1EC'}, size:14, name:'Arial' };
+    titleCell.alignment = { horizontal:'center', vertical:'middle' };
+    ws.getRow(1).height = 30;
+
+    // 헤더
+    const headers = ['날짜','요일','클룩','KKday','인스타DM','WhatsApp','워크인','전화/기타','총방문','직접결제(원)','메모'];
+    const hBgs    = ['1C1917','1C1917','FF6600','5B7FA6','C2185B','25D366','4A7C59','7A726A','1C1917','C9A84C','1C1917'];
+    const hWidths = [12,7,8,8,10,10,9,10,9,16,22];
+    headers.forEach((h,i) => {
+      const col = String.fromCharCode(65+i);
+      const cell = ws.getCell(`${col}2`);
+      cell.value = h;
+      cell.fill = { type:'pattern', pattern:'solid', fgColor:{argb:'FF'+hBgs[i]} };
+      cell.font = { bold:true, color:{argb:'FFFFFFFF'}, size:9, name:'Arial' };
+      cell.alignment = { horizontal:'center', vertical:'middle', wrapText:true };
+      cell.border = { top:{style:'thin',color:{argb:'FFE5DDD5'}}, bottom:{style:'thin',color:{argb:'FFE5DDD5'}}, left:{style:'thin',color:{argb:'FFE5DDD5'}}, right:{style:'thin',color:{argb:'FFE5DDD5'}} };
+      ws.getColumn(i+1).width = hWidths[i];
+    });
+    ws.getRow(2).height = 22;
+
+    // 날짜별 데이터
+    const DAYS = ['일','월','화','수','목','금','토'];
+    const daysInMonth = new Date(viewYear, viewMonth+1, 0).getDate();
+    let dataRow = 3;
+    let prevWeek = 0;
+
+    for (let d = 1; d <= daysInMonth; d++) {
+      const dt = new Date(viewYear, viewMonth, d);
+      const dow = dt.getDay();
+      const key = `${viewYear}-${String(viewMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+      const wn = d<=6?1:d<=13?2:d<=20?3:d<=27?4:5;
+
+      // 주차 구분행
+      if (wn !== prevWeek) {
+        prevWeek = wn;
+        ws.mergeCells(`A${dataRow}:K${dataRow}`);
+        const wc = ws.getCell(`A${dataRow}`);
+        wc.value = `  《 ${wn}주차 》`;
+        wc.fill = { type:'pattern', pattern:'solid', fgColor:{argb:'FF4A7C59'} };
+        wc.font = { bold:true, color:{argb:'FFFFFFFF'}, size:9, name:'Arial' };
+        wc.alignment = { horizontal:'left', vertical:'middle' };
+        ws.getRow(dataRow).height = 15;
+        dataRow++;
+      }
+
+      const e = allEntries[key] || {};
+      const bg = dow >= 5 ? 'FFFFF8E8' : (wn%2===1 ? 'FFFFFFFF' : 'FFF7FBF8');
+      const brd = { top:{style:'thin',color:{argb:'FFE5DDD5'}}, bottom:{style:'thin',color:{argb:'FFE5DDD5'}}, left:{style:'thin',color:{argb:'FFE5DDD5'}}, right:{style:'thin',color:{argb:'FFE5DDD5'}} };
+      const setCell = (col, val, bold=false, color='FF000000', fmt=null) => {
+        const c = ws.getCell(`${col}${dataRow}`);
+        c.value = val ?? '';
+        c.fill = { type:'pattern', pattern:'solid', fgColor:{argb:bg} };
+        c.font = { bold, color:{argb:color}, size:10, name:'Arial' };
+        c.alignment = { horizontal:'center', vertical:'middle' };
+        c.border = brd;
+        if (fmt) c.numFmt = fmt;
+      };
+
+      setCell('A', `${viewMonth+1}/${d}`);
+      setCell('B', DAYS[dow], dow>=5, dow===0?'FFB94040':(dow===6?'FF1565C0':'FF000000'));
+      setCell('C', e.klook||'');
+      setCell('D', e.kkday||'');
+      setCell('E', e.insta||'');
+      setCell('F', e.wa||'');
+      setCell('G', e.walkin||'');
+      setCell('H', e.tel||'');
+      setCell('I', e.total||0, true);
+      if (e.pay) setCell('J', e.pay, true, 'FF4A7C59', '#,##0"원"');
+      else setCell('J', '');
+      setCell('K', e.memo||'');
+      ws.getCell(`K${dataRow}`).alignment = { horizontal:'left', vertical:'middle' };
+      ws.getRow(dataRow).height = 18;
+      dataRow++;
+    }
+
+    // 합계행
+    ws.mergeCells(`A${dataRow}:B${dataRow}`);
+    const sumCell = ws.getCell(`A${dataRow}`);
+    sumCell.value = `📊 ${monthName} 합계`;
+    sumCell.fill = { type:'pattern', pattern:'solid', fgColor:{argb:'FF1C1917'} };
+    sumCell.font = { bold:true, color:{argb:'FFC9A84C'}, size:11, name:'Arial' };
+    sumCell.alignment = { horizontal:'center', vertical:'middle' };
+    const totals = { C:0, D:0, E:0, F:0, G:0, H:0, I:0, J:0 };
+    Object.entries(allEntries).filter(([k])=>k.startsWith(mk)).forEach(([,e])=>{
+      totals.C+=e.klook||0; totals.D+=e.kkday||0; totals.E+=e.insta||0;
+      totals.F+=e.wa||0; totals.G+=e.walkin||0; totals.H+=e.tel||0;
+      totals.I+=e.total||0; totals.J+=e.pay||0;
+    });
+    ['C','D','E','F','G','H','I','J'].forEach(col => {
+      const c = ws.getCell(`${col}${dataRow}`);
+      c.value = totals[col];
+      c.fill = { type:'pattern', pattern:'solid', fgColor:{argb:'FF1C1917'} };
+      c.font = { bold:true, color:{argb:'FFC9A84C'}, size:11, name:'Arial' };
+      c.alignment = { horizontal:'center', vertical:'middle' };
+      if (col==='J') c.numFmt = '#,##0"원"';
+    });
+    ws.getCell(`K${dataRow}`).fill = { type:'pattern', pattern:'solid', fgColor:{argb:'FF1C1917'} };
+    ws.getRow(dataRow).height = 24;
+
+    // ── 시트2: 주차별 요약 ──
+    const ws2 = wb.addWorksheet('주차별요약');
+    ws2.views = [{ showGridLines: false }];
+
+    ws2.mergeCells('A1:G1');
+    const t2 = ws2.getCell('A1');
+    t2.value = `Laurel Studio — 주차별 요약 ${monthName}`;
+    t2.fill = { type:'pattern', pattern:'solid', fgColor:{argb:'FF1C1917'} };
+    t2.font = { bold:true, color:{argb:'FFF4F1EC'}, size:13, name:'Arial' };
+    t2.alignment = { horizontal:'center', vertical:'middle' };
+    ws2.getRow(1).height = 28;
+
+    const h2 = ['주차','기간','클룩','KKday','인스타+WA','워크인+전화','총방문','직접결제'];
+    const h2Bg = ['1C1917','1C1917','FF6600','5B7FA6','C2185B','4A7C59','1C1917','C9A84C'];
+    const w2 = [10,20,9,9,12,14,10,16];
+    h2.forEach((h,i)=>{
+      const c = ws2.getCell(2, i+1);
+      c.value = h;
+      c.fill = { type:'pattern', pattern:'solid', fgColor:{argb:'FF'+h2Bg[i]} };
+      c.font = { bold:true, color:{argb:'FFFFFFFF'}, size:9, name:'Arial' };
+      c.alignment = { horizontal:'center', vertical:'middle' };
+      ws2.getColumn(i+1).width = w2[i];
+    });
+    ws2.getRow(2).height = 20;
+
+    const weekRanges = [[1,6],[7,13],[14,20],[21,27],[28,daysInMonth]];
+    weekRanges.forEach(([s,e], wi) => {
+      const wEntries = Object.entries(allEntries).filter(([k])=>{
+        if (!k.startsWith(mk)) return false;
+        const d = parseInt(k.split('-')[2]);
+        return d>=s && d<=e;
+      }).map(([,v])=>v);
+      const bg = wi%2===0 ? 'FFF4F1EC' : 'FFEBF4EE';
+      const row = wi+3;
+      const vals = [
+        `${wi+1}주차`,
+        `${viewMonth+1}/${s} ~ ${viewMonth+1}/${e}`,
+        wEntries.reduce((a,v)=>a+(v.klook||0),0),
+        wEntries.reduce((a,v)=>a+(v.kkday||0),0),
+        wEntries.reduce((a,v)=>a+(v.insta||0)+(v.wa||0),0),
+        wEntries.reduce((a,v)=>a+(v.walkin||0)+(v.tel||0),0),
+        wEntries.reduce((a,v)=>a+(v.total||0),0),
+        wEntries.reduce((a,v)=>a+(v.pay||0),0),
+      ];
+      vals.forEach((val,ci)=>{
+        const c = ws2.getCell(row, ci+1);
+        c.value = val;
+        c.fill = { type:'pattern', pattern:'solid', fgColor:{argb:bg} };
+        c.font = { bold:ci===6, color:{argb:ci===7?'FF4A7C59':'FF000000'}, size:10, name:'Arial' };
+        c.alignment = { horizontal: ci<=1?'left':'center', vertical:'middle' };
+        c.border = { top:{style:'thin',color:{argb:'FFE5DDD5'}}, bottom:{style:'thin',color:{argb:'FFE5DDD5'}}, left:{style:'thin',color:{argb:'FFE5DDD5'}}, right:{style:'thin',color:{argb:'FFE5DDD5'}} };
+        if (ci===7) c.numFmt = '#,##0"원"';
+      });
+      ws2.getRow(row).height = 20;
+    });
+
+    // 다운로드
+    const buf = await wb.xlsx.writeBuffer();
+    const blob = new Blob([buf], { type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `로렐스튜디오_매출장부_${mk}.xlsx`;
+    a.click();
+    URL.revokeObjectURL(url);
+
+    btn.textContent = '✅ 다운로드 완료!';
+    setTimeout(() => { btn.textContent='📥 이달 엑셀 다운로드'; btn.disabled=false; }, 2500);
+  } catch(err) {
+    console.error(err);
+    btn.textContent = '❌ 오류 — 다시 시도';
+    btn.disabled = false;
+  }
+};
 </script>
 </body>
 </html>
