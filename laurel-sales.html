@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Laurel Studio — 매출 장부</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=DM+Serif+Display:ital@0;1&display=swap');
+:root{
+  --bg:#F4F1EC;--card:#FFF;--dark:#1C1917;--border:#E5DDD5;
+  --green:#4A7C59;--green-bg:#EBF4EE;--gold:#C9A84C;--gold-bg:#FEF9E4;
+  --red:#B94040;--mid:#7A726A;--klook:#FF6600;--kkday:#5B7FA6;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--dark);max-width:480px;margin:0 auto;min-height:100vh;padding-bottom:80px;}
+
+.hdr{background:var(--dark);padding:18px 20px 14px;text-align:center;}
+.hdr-logo{font-family:'DM Serif Display',serif;font-size:20px;color:#F4F1EC;letter-spacing:1px;}
+.hdr-logo em{color:var(--gold);font-style:italic;}
+.hdr-sub{font-size:10px;color:#9A9088;margin-top:3px;letter-spacing:2px;}
+
+.tabs{display:grid;grid-template-columns:1fr 1fr 1fr;background:var(--dark);padding:0 16px 12px;gap:6px;}
+.tab{padding:9px 4px;border-radius:10px;border:none;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;}
+.tab.active{background:var(--gold);color:var(--dark);}
+.tab.inactive{background:#2A2520;color:#888;}
+
+.sync-bar{display:flex;align-items:center;gap:6px;padding:8px 16px;font-size:11px;color:var(--mid);}
+.sync-dot{width:7px;height:7px;border-radius:50%;background:#ccc;}
+.sync-dot.ok{background:var(--green);animation:pulse 2s infinite;}
+.sync-dot.err{background:var(--red);}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+
+.screen{display:none;padding:12px 14px;}
+.screen.active{display:block;}
+
+/* 입력 폼 */
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:12px;}
+.card-title{font-size:11px;font-weight:700;color:var(--mid);letter-spacing:.07em;text-transform:uppercase;margin-bottom:12px;}
+.date-row{display:flex;gap:8px;margin-bottom:14px;}
+.date-row input{flex:1;padding:11px 13px;border:1.5px solid var(--border);border-radius:10px;font-family:inherit;font-size:14px;background:var(--bg);outline:none;}
+.date-row input:focus{border-color:var(--green);}
+
+.route-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
+.route-item{display:flex;flex-direction:column;gap:4px;}
+.route-label{font-size:10px;font-weight:700;letter-spacing:.05em;}
+.route-input{padding:10px;border:1.5px solid var(--border);border-radius:10px;text-align:center;font-size:20px;font-weight:700;font-family:inherit;background:var(--bg);outline:none;width:100%;}
+.route-input:focus{border-color:var(--green);background:#fff;}
+.lbl-klook{color:var(--klook);}
+.lbl-kkday{color:var(--kkday);}
+.lbl-insta{color:#C2185B;}
+.lbl-wa{color:#25D366;}
+.lbl-walkin{color:var(--green);}
+.lbl-tel{color:var(--mid);}
+
+.pay-section{background:var(--gold-bg);border:1px solid #F0D98A;border-radius:12px;padding:14px;margin-bottom:14px;}
+.pay-title{font-size:11px;font-weight:700;color:#8A6500;margin-bottom:10px;letter-spacing:.05em;}
+.pay-row{display:flex;gap:8px;align-items:center;}
+.pay-input{flex:1;padding:12px;border:1.5px solid #F0D98A;border-radius:10px;font-size:18px;font-weight:700;font-family:inherit;background:#fff;outline:none;text-align:right;}
+.pay-input:focus{border-color:var(--gold);}
+.pay-unit{font-size:13px;color:#8A6500;font-weight:600;}
+
+.quick-btns{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;}
+.qbtn{padding:7px 12px;border:1px solid #F0D98A;border-radius:8px;background:#fff;font-family:inherit;font-size:12px;font-weight:600;color:#8A6500;cursor:pointer;}
+.qbtn:active{background:var(--gold);color:#fff;}
+
+.memo-inp{width:100%;padding:11px 13px;border:1.5px solid var(--border);border-radius:10px;font-family:inherit;font-size:13px;background:var(--bg);outline:none;margin-bottom:14px;}
+.memo-inp:focus{border-color:var(--green);}
+
+.btn-save{width:100%;padding:15px;background:var(--green);color:#fff;border:none;border-radius:12px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;letter-spacing:.5px;}
+.btn-save:active{opacity:.8;}
+.alert{padding:11px 13px;border-radius:10px;font-size:12px;margin-bottom:12px;display:none;}
+.alert.ok{background:var(--green-bg);color:var(--green);border:1px solid #B0D4BC;display:block;}
+.alert.err{background:#FDEAEA;color:var(--red);border:1px solid #F9C0C0;display:block;}
+
+/* 로그 */
+.month-nav{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:14px;}
+.month-nav button{width:34px;height:34px;border:1px solid var(--border);border-radius:10px;background:var(--card);font-size:16px;cursor:pointer;}
+.month-label{font-family:'DM Serif Display',serif;font-size:18px;}
+
+.stat-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px;}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;text-align:center;}
+.stat-num{font-size:22px;font-weight:700;}
+.stat-lbl{font-size:10px;color:var(--mid);margin-top:3px;}
+
+.week-section{margin-bottom:10px;}
+.week-hdr{background:var(--dark);color:var(--gold);font-size:11px;font-weight:700;padding:8px 14px;border-radius:10px 10px 0 0;letter-spacing:.05em;}
+.day-row{background:var(--card);border:1px solid var(--border);border-top:none;padding:10px 14px;display:flex;align-items:center;gap:8px;}
+.day-row:last-child{border-radius:0 0 10px 10px;}
+.day-date{font-size:12px;font-weight:700;width:40px;flex-shrink:0;}
+.day-tags{display:flex;gap:4px;flex:1;flex-wrap:wrap;}
+.dtag{font-size:10px;padding:2px 7px;border-radius:10px;font-weight:600;}
+.dtag-klook{background:#FFF0E0;color:var(--klook);}
+.dtag-kkday{background:#EAF0F8;color:var(--kkday);}
+.dtag-insta{background:#FCE4EC;color:#C2185B;}
+.dtag-wa{background:#E8F5E9;color:#25D366;}
+.dtag-walkin{background:var(--green-bg);color:var(--green);}
+.dtag-tel{background:#F5F5F5;color:var(--mid);}
+.day-pay{font-size:12px;font-weight:700;color:var(--green);flex-shrink:0;}
+.day-total{font-size:11px;color:var(--mid);flex-shrink:0;}
+.no-data{text-align:center;padding:30px;color:var(--border);font-size:13px;}
+
+/* 경로 분석 */
+.route-bar-wrap{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px;}
+.route-bar-title{font-size:11px;font-weight:700;color:var(--mid);letter-spacing:.06em;margin-bottom:12px;}
+.rbar-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.rbar-name{font-size:12px;width:60px;flex-shrink:0;}
+.rbar-track{flex:1;background:#F0EBE5;border-radius:4px;height:10px;overflow:hidden;}
+.rbar-fill{height:100%;border-radius:4px;transition:width .4s;}
+.rbar-cnt{font-size:12px;font-weight:700;width:28px;text-align:right;}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-logo">Laurel <em>Studio</em></div>
+  <div class="hdr-sub">매출 장부 · Sales Ledger</div>
+</div>
+<div class="tabs">
+  <button class="tab active" id="tab-input" onclick="showTab('input')">✏️ 입력</button>
+  <button class="tab inactive" id="tab-log" onclick="showTab('log')">📋 기록</button>
+  <button class="tab inactive" id="tab-stats" onclick="showTab('stats')">📊 분석</button>
+</div>
+<div class="sync-bar">
+  <div class="sync-dot" id="syncDot"></div>
+  <span id="syncLabel">Firebase 연결 중...</span>
+</div>
+
+<!-- ── 입력 탭 ── -->
+<div class="screen active" id="scrInput">
+  <div class="alert" id="inputAlert"></div>
+  <div class="card">
+    <div class="card-title">📅 날짜</div>
+    <div class="date-row"><input type="date" id="inDate"></div>
+
+    <div class="card-title">👥 유입 경로별 인원</div>
+    <div class="route-grid">
+      <div class="route-item">
+        <span class="route-label lbl-klook">🟠 Klook</span>
+        <input class="route-input" type="number" id="r-klook" min="0" value="0">
+      </div>
+      <div class="route-item">
+        <span class="route-label lbl-kkday">🔵 KKday / Trazy</span>
+        <input class="route-input" type="number" id="r-kkday" min="0" value="0">
+      </div>
+      <div class="route-item">
+        <span class="route-label lbl-insta">🔴 인스타 DM</span>
+        <input class="route-input" type="number" id="r-insta" min="0" value="0">
+      </div>
+      <div class="route-item">
+        <span class="route-label lbl-wa">🟢 WhatsApp</span>
+        <input class="route-input" type="number" id="r-wa" min="0" value="0">
+      </div>
+      <div class="route-item">
+        <span class="route-label lbl-walkin">🟤 워크인</span>
+        <input class="route-input" type="number" id="r-walkin" min="0" value="0">
+      </div>
+      <div class="route-item">
+        <span class="route-label lbl-tel">⚫ 전화/기타</span>
+        <input class="route-input" type="number" id="r-tel" min="0" value="0">
+      </div>
+    </div>
+
+    <div class="pay-section">
+      <div class="pay-title">💰 직접 결제 금액 (현장·DM·WhatsApp)</div>
+      <div class="pay-row">
+        <input class="pay-input" type="number" id="inPay" placeholder="0" min="0">
+        <span class="pay-unit">원</span>
+      </div>
+      <div class="quick-btns">
+        <button class="qbtn" onclick="addPay(99000)">+99,000</button>
+        <button class="qbtn" onclick="addPay(110000)">+110,000</button>
+        <button class="qbtn" onclick="addPay(120000)">+120,000</button>
+        <button class="qbtn" onclick="addPay(130000)">+130,000</button>
+        <button class="qbtn" onclick="addPay(150000)">+150,000</button>
+        <button class="qbtn" onclick="document.getElementById('inPay').value=0">초기화</button>
+      </div>
+    </div>
+
+    <input class="memo-inp" type="text" id="inMemo" placeholder="메모 (선택)">
+    <button class="btn-save" onclick="saveEntry()">저장하기</button>
+  </div>
+</div>
+
+<!-- ── 기록 탭 ── -->
+<div class="screen" id="scrLog">
+  <div class="month-nav">
+    <button onclick="changeMonth(-1)">‹</button>
+    <div class="month-label" id="logMonthLabel"></div>
+    <button onclick="changeMonth(1)">›</button>
+  </div>
+  <div class="stat-row" id="logStats"></div>
+  <div id="logWeeks"></div>
+</div>
+
+<!-- ── 분석 탭 ── -->
+<div class="screen" id="scrStats">
+  <div class="month-nav">
+    <button onclick="changeMonth(-1)">‹</button>
+    <div class="month-label" id="statsMonthLabel"></div>
+    <button onclick="changeMonth(1)">›</button>
+  </div>
+  <div class="route-bar-wrap">
+    <div class="route-bar-title">📊 경로별 방문자 수</div>
+    <div id="routeBars"></div>
+  </div>
+  <div class="card">
+    <div class="card-title">💰 직접 결제 현황</div>
+    <div id="payStats"></div>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, set, get, onValue, remove } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyA0nJAcOV64dq2QT2BVSsGxis99VTA2eEI",
+  authDomain: "laurel-studio.firebaseapp.com",
+  databaseURL: "https://laurel-studio-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "laurel-studio",
+  storageBucket: "laurel-studio.firebasestorage.app",
+  messagingSenderId: "516403607342",
+  appId: "1:516403607342:web:5389cdfe397afcee1cacbf"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+// ── 상태 ──
+let viewYear = new Date().getFullYear();
+let viewMonth = new Date().getMonth();
+let allEntries = {}; // { "2026-04-01": {klook,kkday,insta,wa,walkin,tel,pay,memo} }
+
+// ── Firebase ──
+onValue(ref(db, 'sales'), (snap) => {
+  allEntries = snap.val() || {};
+  renderLog(); renderStats();
+  setSyncStatus('ok');
+});
+onValue(ref(db, '.info/connected'), (snap) => {
+  if (!snap.val()) setSyncStatus('err');
+});
+
+function setSyncStatus(s) {
+  const dot = document.getElementById('syncDot');
+  const lbl = document.getElementById('syncLabel');
+  if (s === 'ok') { dot.className='sync-dot ok'; lbl.textContent='실시간 동기화 중'; }
+  else { dot.className='sync-dot err'; lbl.textContent='연결 오류'; }
+}
+
+// ── 탭 ──
+window.showTab = (tab) => {
+  ['input','log','stats'].forEach(t => {
+    document.getElementById('scr'+cap(t)).classList.toggle('active', t===tab);
+    document.getElementById('tab-'+t).className = 'tab ' + (t===tab?'active':'inactive');
+  });
+};
+function cap(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
+
+// ── 초기 날짜 ──
+const today = new Date();
+document.getElementById('inDate').value = fmtDate(today);
+
+// ── 월 네비 ──
+window.changeMonth = (d) => {
+  viewMonth += d;
+  if (viewMonth > 11) { viewMonth=0; viewYear++; }
+  if (viewMonth < 0)  { viewMonth=11; viewYear--; }
+  renderLog(); renderStats();
+};
+
+function fmtDate(d) {
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function monthKey() { return `${viewYear}-${String(viewMonth+1).padStart(2,'0')}`; }
+
+// ── 저장 ──
+window.addPay = (amt) => {
+  const inp = document.getElementById('inPay');
+  inp.value = (parseInt(inp.value)||0) + amt;
+};
+
+window.saveEntry = async () => {
+  const date = document.getElementById('inDate').value;
+  const alert = document.getElementById('inputAlert');
+  if (!date) { showAlert('날짜를 선택해주세요', 'err'); return; }
+
+  const entry = {
+    klook:  parseInt(document.getElementById('r-klook').value)||0,
+    kkday:  parseInt(document.getElementById('r-kkday').value)||0,
+    insta:  parseInt(document.getElementById('r-insta').value)||0,
+    wa:     parseInt(document.getElementById('r-wa').value)||0,
+    walkin: parseInt(document.getElementById('r-walkin').value)||0,
+    tel:    parseInt(document.getElementById('r-tel').value)||0,
+    pay:    parseInt(document.getElementById('inPay').value)||0,
+    memo:   document.getElementById('inMemo').value.trim(),
+    savedAt: new Date().toISOString()
+  };
+  entry.total = entry.klook+entry.kkday+entry.insta+entry.wa+entry.walkin+entry.tel;
+
+  await set(ref(db, `sales/${date}`), entry);
+  showAlert(`✅ ${date} 저장 완료! 총 ${entry.total}명 / 직접결제 ${entry.pay.toLocaleString()}원`, 'ok');
+  // 입력 초기화
+  ['r-klook','r-kkday','r-insta','r-wa','r-walkin','r-tel'].forEach(id => document.getElementById(id).value=0);
+  document.getElementById('inPay').value=0;
+  document.getElementById('inMemo').value='';
+};
+
+function showAlert(msg, type) {
+  const el = document.getElementById('inputAlert');
+  el.textContent = msg; el.className = `alert ${type}`;
+  setTimeout(() => el.className='alert', 4000);
+}
+
+// ── 주차 계산 ──
+function getWeekNum(dateStr) {
+  const d = new Date(dateStr);
+  const day = d.getDate();
+  if (day <= 6) return 1;
+  if (day <= 13) return 2;
+  if (day <= 20) return 3;
+  if (day <= 27) return 4;
+  return 5;
+}
+function weekLabel(wn, year, month) {
+  const starts = [1,7,14,21,28];
+  const ends   = [6,13,20,27, new Date(year,month+1,0).getDate()];
+  const m = month+1;
+  return `${wn}주차 · ${m}/${starts[wn-1]} ~ ${m}/${ends[wn-1]}`;
+}
+
+// ── 기록 렌더 ──
+function renderLog() {
+  const mk = monthKey();
+  const MO = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
+  document.getElementById('logMonthLabel').textContent = `${viewYear}년 ${MO[viewMonth]}`;
+
+  const entries = Object.entries(allEntries).filter(([k]) => k.startsWith(mk)).sort();
+
+  // 월 통계
+  let totalVisit=0, totalPay=0, days=0;
+  entries.forEach(([,e]) => { totalVisit+=e.total||0; totalPay+=e.pay||0; days++; });
+  const avg = days ? (totalVisit/days).toFixed(1) : 0;
+  document.getElementById('logStats').innerHTML = `
+    <div class="stat-card"><div class="stat-num" style="color:var(--green)">${totalVisit}</div><div class="stat-lbl">총 방문</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:var(--gold)">${avg}</div><div class="stat-lbl">일 평균</div></div>
+    <div class="stat-card"><div class="stat-num" style="color:var(--mid);font-size:16px">${(totalPay/10000).toFixed(0)}만원</div><div class="stat-lbl">직접결제</div></div>`;
+
+  if (!entries.length) { document.getElementById('logWeeks').innerHTML='<div class="no-data">📭 이 달 기록이 없어요</div>'; return; }
+
+  // 주차별 그룹핑
+  const weeks = {};
+  entries.forEach(([k,e]) => {
+    const wn = getWeekNum(k);
+    if (!weeks[wn]) weeks[wn]=[];
+    weeks[wn].push([k,e]);
+  });
+
+  const DAYS = ['일','월','화','수','목','금','토'];
+  let html = '';
+  Object.keys(weeks).sort().forEach(wn => {
+    html += `<div class="week-section"><div class="week-hdr">《 ${weekLabel(+wn, viewYear, viewMonth)} 》</div>`;
+    weeks[wn].forEach(([k,e]) => {
+      const d = new Date(k);
+      const dow = DAYS[d.getDay()];
+      const tags = [
+        e.klook  ? `<span class="dtag dtag-klook">클룩 ${e.klook}</span>` : '',
+        e.kkday  ? `<span class="dtag dtag-kkday">KKday ${e.kkday}</span>` : '',
+        e.insta  ? `<span class="dtag dtag-insta">인스타 ${e.insta}</span>` : '',
+        e.wa     ? `<span class="dtag dtag-wa">WA ${e.wa}</span>` : '',
+        e.walkin ? `<span class="dtag dtag-walkin">워크인 ${e.walkin}</span>` : '',
+        e.tel    ? `<span class="dtag dtag-tel">전화 ${e.tel}</span>` : '',
+      ].filter(Boolean).join('');
+      html += `<div class="day-row">
+        <div class="day-date">${d.getDate()}일(${dow})</div>
+        <div class="day-tags">${tags||'<span style="font-size:11px;color:var(--border)">-</span>'}</div>
+        <div class="day-total">${e.total||0}명</div>
+        ${e.pay ? `<div class="day-pay">${e.pay.toLocaleString()}원</div>` : ''}
+      </div>`;
+    });
+    html += '</div>';
+  });
+  document.getElementById('logWeeks').innerHTML = html;
+}
+
+// ── 분석 렌더 ──
+function renderStats() {
+  const mk = monthKey();
+  const MO = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
+  document.getElementById('statsMonthLabel').textContent = `${viewYear}년 ${MO[viewMonth]}`;
+
+  const entries = Object.values(allEntries).filter((e,i) => {
+    const k = Object.keys(allEntries)[i];
+    return k && k.startsWith(mk);
+  });
+  // 더 정확한 필터
+  const filteredEntries = Object.entries(allEntries).filter(([k]) => k.startsWith(mk)).map(([,v])=>v);
+
+  const routes = {
+    '🟠 Klook':    { key:'klook',  color:'#FF6600', cnt:0 },
+    '🔵 KKday':    { key:'kkday',  color:'#5B7FA6', cnt:0 },
+    '🔴 인스타DM': { key:'insta',  color:'#C2185B', cnt:0 },
+    '🟢 WhatsApp': { key:'wa',     color:'#25D366', cnt:0 },
+    '🟤 워크인':   { key:'walkin', color:'#4A7C59', cnt:0 },
+    '⚫ 전화/기타': { key:'tel',    color:'#7A726A', cnt:0 },
+  };
+  let totalPay=0, payCnt=0;
+  filteredEntries.forEach(e => {
+    Object.values(routes).forEach(r => r.cnt += (e[r.key]||0));
+    totalPay += e.pay||0;
+    if (e.pay) payCnt++;
+  });
+
+  const maxCnt = Math.max(...Object.values(routes).map(r=>r.cnt), 1);
+  let barHtml = '';
+  Object.entries(routes).forEach(([name, r]) => {
+    const pct = Math.round(r.cnt/maxCnt*100);
+    barHtml += `<div class="rbar-row">
+      <div class="rbar-name" style="font-size:11px">${name}</div>
+      <div class="rbar-track"><div class="rbar-fill" style="width:${pct}%;background:${r.color}"></div></div>
+      <div class="rbar-cnt">${r.cnt}</div>
+    </div>`;
+  });
+  document.getElementById('routeBars').innerHTML = barHtml || '<div class="no-data">데이터 없음</div>';
+
+  const avgPay = payCnt ? Math.round(totalPay/payCnt) : 0;
+  document.getElementById('payStats').innerHTML = `
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border)">
+        <span style="font-size:13px;color:var(--mid)">직접결제 총액</span>
+        <span style="font-size:18px;font-weight:700;color:var(--green)">${totalPay.toLocaleString()}원</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border)">
+        <span style="font-size:13px;color:var(--mid)">직접결제 건수</span>
+        <span style="font-size:18px;font-weight:700;color:var(--gold)">${payCnt}일</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0">
+        <span style="font-size:13px;color:var(--mid)">평균 객단가</span>
+        <span style="font-size:18px;font-weight:700;color:var(--mid)">${avgPay.toLocaleString()}원</span>
+      </div>
+      <div style="font-size:11px;color:var(--mid);margin-top:4px;padding:10px;background:var(--gold-bg);border-radius:8px">
+        💡 클룩·KKday 정산금은 플랫폼 대시보드에서 월별로 확인 후 「플랫폼정산」탭에 별도 기록하세요
+      </div>
+    </div>`;
+}
+
+// ── 1주차 초기 데이터 삽입 (최초 1회) ──
+async function seedWeek1() {
+  const snap = await get(ref(db, 'sales/2026-04-01'));
+  if (snap.exists()) return; // 이미 있으면 스킵
+
+  const week1 = {
+    "2026-04-01": {klook:2,kkday:0,insta:0,wa:0,walkin:0,tel:0,pay:0,memo:"",total:2},
+    "2026-04-02": {klook:2,kkday:0,insta:0,wa:0,walkin:1,tel:0,pay:110000,memo:"워크인 현장결제",total:3},
+    "2026-04-03": {klook:2,kkday:0,insta:0,wa:0,walkin:0,tel:1,pay:110000,memo:"전화예약",total:3},
+    "2026-04-04": {klook:2,kkday:0,insta:0,wa:0,walkin:0,tel:0,pay:0,memo:"",total:2},
+    "2026-04-05": {klook:2,kkday:0,insta:1,wa:0,walkin:0,tel:0,pay:110000,memo:"인스타 DM",total:3},
+    "2026-04-06": {klook:2,kkday:0,insta:0,wa:0,walkin:1,tel:1,pay:220000,memo:"",total:4},
+  };
+  for (const [k,v] of Object.entries(week1)) {
+    await set(ref(db, `sales/${k}`), {...v, savedAt: new Date().toISOString()});
+  }
+}
+seedWeek1();
+
+renderLog(); renderStats();
+</script>
+</body>
+</html>
