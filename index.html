@@ -19,8 +19,8 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--dark
 .hdr-logo em{color:var(--gold);font-style:italic;}
 .hdr-sub{font-size:10px;color:#9A9088;margin-top:3px;letter-spacing:2px;}
 
-.tabs{display:grid;grid-template-columns:1fr 1fr 1fr;background:var(--dark);padding:0 16px 12px;gap:6px;}
-.tab{padding:9px 4px;border-radius:10px;border:none;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;}
+.tabs{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;background:var(--dark);padding:0 16px 12px;gap:6px;}
+.tab{padding:9px 4px;border-radius:10px;border:none;font-family:inherit;font-size:11px;font-weight:700;cursor:pointer;transition:all .2s;}
 .tab.active{background:var(--gold);color:var(--dark);}
 .tab.inactive{background:#2A2520;color:#888;}
 
@@ -109,6 +109,64 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--dark
 .rbar-track{flex:1;background:#F0EBE5;border-radius:4px;height:10px;overflow:hidden;}
 .rbar-fill{height:100%;border-radius:4px;transition:width .4s;}
 .rbar-cnt{font-size:12px;font-weight:700;width:28px;text-align:right;}
+
+/* ── 총괄 탭 스타일 ── */
+.overview-section{margin-bottom:14px;}
+.overview-title{font-size:11px;font-weight:700;color:var(--mid);letter-spacing:.07em;text-transform:uppercase;margin-bottom:10px;padding:0 2px;}
+
+/* 월별 추이 */
+.trend-wrap{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:12px;}
+.trend-title{font-size:11px;font-weight:700;color:var(--mid);letter-spacing:.06em;margin-bottom:14px;}
+.trend-bars{display:flex;align-items:flex-end;gap:6px;height:80px;}
+.trend-bar-col{display:flex;flex-direction:column;align-items:center;flex:1;gap:3px;}
+.trend-bar{width:100%;background:var(--green);border-radius:4px 4px 0 0;min-height:4px;transition:height .4s;}
+.trend-bar-lbl{font-size:9px;color:var(--mid);}
+.trend-bar-val{font-size:9px;font-weight:700;color:var(--dark);}
+
+/* KPI 카드 */
+.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
+.kpi-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;}
+.kpi-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+.kpi-icon{font-size:16px;}
+.kpi-badge{font-size:9px;padding:2px 7px;border-radius:10px;font-weight:700;}
+.kpi-badge.up{background:#EBF4EE;color:var(--green);}
+.kpi-badge.same{background:#F5F5F5;color:var(--mid);}
+.kpi-num{font-size:22px;font-weight:700;line-height:1;}
+.kpi-unit{font-size:11px;color:var(--mid);font-weight:400;}
+.kpi-lbl{font-size:10px;color:var(--mid);margin-top:4px;}
+
+/* 수동 입력 섹션 */
+.manual-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:12px;}
+.manual-title{font-size:11px;font-weight:700;color:var(--mid);letter-spacing:.07em;margin-bottom:12px;}
+.manual-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--border);}
+.manual-row:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none;}
+.manual-icon{font-size:18px;flex-shrink:0;width:28px;text-align:center;}
+.manual-info{flex:1;}
+.manual-lbl{font-size:12px;font-weight:700;color:var(--dark);}
+.manual-sub{font-size:10px;color:var(--mid);margin-top:1px;}
+.manual-inp-wrap{display:flex;align-items:center;gap:4px;}
+.manual-inp{width:90px;padding:8px 10px;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:14px;font-weight:700;text-align:right;background:var(--bg);outline:none;}
+.manual-inp:focus{border-color:var(--gold);}
+.manual-unit{font-size:11px;color:var(--mid);flex-shrink:0;}
+.manual-diff{font-size:10px;font-weight:700;padding:2px 7px;border-radius:8px;}
+.manual-diff.up{background:#EBF4EE;color:var(--green);}
+.manual-diff.none{background:#F5F5F5;color:var(--mid);}
+.btn-manual-save{width:100%;padding:13px;background:var(--gold);color:var(--dark);border:none;border-radius:10px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;margin-top:4px;}
+.btn-manual-save:active{opacity:.8;}
+
+/* 리뷰 누적 섹션 */
+.review-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:12px;}
+.review-title{font-size:11px;font-weight:700;color:var(--mid);letter-spacing:.07em;margin-bottom:4px;}
+.review-hint{font-size:10px;color:var(--mid);margin-bottom:12px;line-height:1.5;}
+.review-row{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.review-row:last-of-type{margin-bottom:0;}
+.review-icon{font-size:14px;width:20px;text-align:center;flex-shrink:0;}
+.review-lbl{font-size:12px;font-weight:700;width:70px;flex-shrink:0;}
+.review-inp{flex:1;padding:8px 10px;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:14px;font-weight:700;text-align:center;background:var(--bg);outline:none;}
+.review-inp:focus{border-color:var(--gold);}
+.review-diff{font-size:11px;font-weight:700;width:50px;text-align:right;flex-shrink:0;}
+.review-diff.up{color:var(--green);}
+.review-diff.none{color:var(--mid);}
 </style>
 </head>
 <body>
@@ -121,6 +179,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--dark
   <button class="tab active" id="tab-input" onclick="showTab('input')">✏️ 입력</button>
   <button class="tab inactive" id="tab-log" onclick="showTab('log')">📋 기록</button>
   <button class="tab inactive" id="tab-stats" onclick="showTab('stats')">📊 분석</button>
+  <button class="tab inactive" id="tab-overview" onclick="showTab('overview')">🏆 총괄</button>
 </div>
 <div class="sync-bar">
   <div class="sync-dot" id="syncDot"></div>
@@ -212,9 +271,87 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--dark
   <button class="btn-excel" id="btnExcel" onclick="exportExcel()">📥 이달 엑셀 다운로드</button>
 </div>
 
+<!-- ── 총괄 탭 ── -->
+<div class="screen" id="scrOverview">
+
+  <!-- 월별 방문객 추이 -->
+  <div class="trend-wrap">
+    <div class="trend-title">📈 월별 방문객 추이 (자동)</div>
+    <div class="trend-bars" id="trendBars"></div>
+  </div>
+
+  <!-- KPI 카드 (자동) -->
+  <div class="overview-title">이달 핵심 지표 (자동 집계)</div>
+  <div class="kpi-grid" id="kpiGrid"></div>
+
+  <!-- 수동 입력 — 구독 수익 + 인스타 팔로워 -->
+  <div class="manual-card">
+    <div class="manual-title">✏️ 월간 수동 입력 (매달 말일 업데이트)</div>
+
+    <div class="manual-row">
+      <div class="manual-icon">💌</div>
+      <div class="manual-info">
+        <div class="manual-lbl">구독 수익</div>
+        <div class="manual-sub">Basic + Premium 합산 / 월 1회</div>
+      </div>
+      <div class="manual-inp-wrap">
+        <input class="manual-inp" type="number" id="m-sub" placeholder="0" min="0">
+        <span class="manual-unit">$</span>
+      </div>
+    </div>
+
+    <div class="manual-row">
+      <div class="manual-icon">📸</div>
+      <div class="manual-info">
+        <div class="manual-lbl">인스타 팔로워</div>
+        <div class="manual-sub">월말 기준 총 팔로워 수</div>
+      </div>
+      <div class="manual-inp-wrap">
+        <input class="manual-inp" type="number" id="m-insta" placeholder="0" min="0">
+        <span class="manual-unit">명</span>
+      </div>
+    </div>
+
+    <button class="btn-manual-save" onclick="saveManual()">💾 저장하기</button>
+  </div>
+
+  <!-- 리뷰 누적 카운터 -->
+  <div class="review-card">
+    <div class="review-title">⭐ 리뷰 누적 카운터 (잔여수 방식)</div>
+    <div class="review-hint">
+      매달 말일 현재 총 건수를 입력하세요.<br>
+      전달 대비 증가분이 자동으로 계산됩니다.
+    </div>
+
+    <div class="review-row">
+      <div class="review-icon">🗺️</div>
+      <div class="review-lbl">구글 리뷰</div>
+      <input class="review-inp" type="number" id="r-google" placeholder="0" min="0">
+      <div class="review-diff none" id="diff-google">—</div>
+    </div>
+
+    <div class="review-row">
+      <div class="review-icon">🟠</div>
+      <div class="review-lbl">클룩 리뷰</div>
+      <input class="review-inp" type="number" id="r-klook-rev" placeholder="0" min="0">
+      <div class="review-diff none" id="diff-klook">—</div>
+    </div>
+
+    <div class="review-row">
+      <div class="review-icon">🔵</div>
+      <div class="review-lbl">KKday 리뷰</div>
+      <input class="review-inp" type="number" id="r-kkday-rev" placeholder="0" min="0">
+      <div class="review-diff none" id="diff-kkday">—</div>
+    </div>
+
+    <button class="btn-manual-save" onclick="saveReviews()" style="margin-top:12px;">💾 리뷰 저장</button>
+  </div>
+
+</div>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getDatabase, ref, set, get, onValue, remove } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import { getDatabase, ref, set, get, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyA0nJAcOV64dq2QT2BVSsGxis99VTA2eEI",
@@ -229,22 +366,27 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// ── 상태 ──
-window.viewYear = new Date().getFullYear();
+window.viewYear  = new Date().getFullYear();
 window.viewMonth = new Date().getMonth();
 window.allEntries = {};
-let viewYear = window.viewYear;
-let viewMonth = window.viewMonth;
-let allEntries = window.allEntries;
+window.allManual  = {};
 
-// ── Firebase ──
+let viewYear  = window.viewYear;
+let viewMonth = window.viewMonth;
+let allEntries = {};
+let allManual  = {};
+
+// Firebase 실시간 동기화
 onValue(ref(db, 'sales'), (snap) => {
   allEntries = snap.val() || {};
   window.allEntries = allEntries;
-  window.viewYear = viewYear;
-  window.viewMonth = viewMonth;
-  renderLog(); renderStats();
+  renderLog(); renderStats(); renderOverview();
   setSyncStatus('ok');
+});
+onValue(ref(db, 'manual'), (snap) => {
+  allManual = snap.val() || {};
+  window.allManual = allManual;
+  renderOverview();
 });
 onValue(ref(db, '.info/connected'), (snap) => {
   if (!snap.val()) setSyncStatus('err');
@@ -253,49 +395,46 @@ onValue(ref(db, '.info/connected'), (snap) => {
 function setSyncStatus(s) {
   const dot = document.getElementById('syncDot');
   const lbl = document.getElementById('syncLabel');
-  if (s === 'ok') { dot.className='sync-dot ok'; lbl.textContent='실시간 동기화 중'; }
+  if (s==='ok'){ dot.className='sync-dot ok'; lbl.textContent='실시간 동기화 중'; }
   else { dot.className='sync-dot err'; lbl.textContent='연결 오류'; }
 }
 
-// ── 탭 ──
+// 탭
 window.showTab = (tab) => {
-  ['input','log','stats'].forEach(t => {
+  ['input','log','stats','overview'].forEach(t => {
     document.getElementById('scr'+cap(t)).classList.toggle('active', t===tab);
-    document.getElementById('tab-'+t).className = 'tab ' + (t===tab?'active':'inactive');
+    document.getElementById('tab-'+t).className = 'tab '+(t===tab?'active':'inactive');
   });
+  if (tab==='overview') renderOverview();
 };
 function cap(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
 
-// ── 초기 날짜 ──
-const today = new Date();
-document.getElementById('inDate').value = fmtDate(today);
+// 초기 날짜
+document.getElementById('inDate').value = fmtDate(new Date());
 
-// ── 월 네비 ──
 window.changeMonth = (d) => {
   viewMonth += d;
-  if (viewMonth > 11) { viewMonth=0; viewYear++; }
-  if (viewMonth < 0)  { viewMonth=11; viewYear--; }
-  window.viewYear = viewYear;
-  window.viewMonth = viewMonth;
-  renderLog(); renderStats();
+  if (viewMonth>11){ viewMonth=0; viewYear++; }
+  if (viewMonth<0) { viewMonth=11; viewYear--; }
+  window.viewYear=viewYear; window.viewMonth=viewMonth;
+  renderLog(); renderStats(); renderOverview();
 };
 
-function fmtDate(d) {
+function fmtDate(d){
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 }
-function monthKey() { return `${viewYear}-${String(viewMonth+1).padStart(2,'0')}`; }
+function monthKey(y,m){ return `${y}-${String(m+1).padStart(2,'0')}`; }
+const MO = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
 
-// ── 저장 ──
+// 저장
 window.addPay = (amt) => {
   const inp = document.getElementById('inPay');
-  inp.value = (parseInt(inp.value)||0) + amt;
+  inp.value = (parseInt(inp.value)||0)+amt;
 };
 
 window.saveEntry = async () => {
   const date = document.getElementById('inDate').value;
-  const alert = document.getElementById('inputAlert');
-  if (!date) { showAlert('날짜를 선택해주세요', 'err'); return; }
-
+  if (!date){ showAlert('날짜를 선택해주세요','err'); return; }
   const entry = {
     klook:  parseInt(document.getElementById('r-klook').value)||0,
     kkday:  parseInt(document.getElementById('r-kkday').value)||0,
@@ -308,134 +447,251 @@ window.saveEntry = async () => {
     savedAt: new Date().toISOString()
   };
   entry.total = entry.klook+entry.kkday+entry.insta+entry.wa+entry.walkin+entry.tel;
-
   await set(ref(db, `sales/${date}`), entry);
-  showAlert(`✅ ${date} 저장 완료! 총 ${entry.total}명 / 직접결제 ${entry.pay.toLocaleString()}원`, 'ok');
-  // 입력 초기화
-  ['r-klook','r-kkday','r-insta','r-wa','r-walkin','r-tel'].forEach(id => document.getElementById(id).value=0);
+  showAlert(`✅ ${date} 저장 완료! 총 ${entry.total}명 / 직접결제 ${entry.pay.toLocaleString()}원`,'ok');
+  ['r-klook','r-kkday','r-insta','r-wa','r-walkin','r-tel'].forEach(id=>document.getElementById(id).value=0);
   document.getElementById('inPay').value=0;
   document.getElementById('inMemo').value='';
 };
 
-function showAlert(msg, type) {
-  const el = document.getElementById('inputAlert');
-  el.textContent = msg; el.className = `alert ${type}`;
-  setTimeout(() => el.className='alert', 4000);
+function showAlert(msg,type){
+  const el=document.getElementById('inputAlert');
+  el.textContent=msg; el.className=`alert ${type}`;
+  setTimeout(()=>el.className='alert',4000);
+}
+
+// ── 수동 입력 저장 ──
+window.saveManual = async () => {
+  const mk = monthKey(viewYear, viewMonth);
+  const sub   = parseInt(document.getElementById('m-sub').value)||0;
+  const insta = parseInt(document.getElementById('m-insta').value)||0;
+  const existing = allManual[mk] || {};
+  await set(ref(db, `manual/${mk}`), { ...existing, sub, insta, updatedAt: new Date().toISOString() });
+  alert('✅ 저장됐어요!');
+};
+
+// ── 리뷰 저장 ──
+window.saveReviews = async () => {
+  const mk = monthKey(viewYear, viewMonth);
+  const google = parseInt(document.getElementById('r-google').value)||0;
+  const klook  = parseInt(document.getElementById('r-klook-rev').value)||0;
+  const kkday  = parseInt(document.getElementById('r-kkday-rev').value)||0;
+  const existing = allManual[mk] || {};
+  await set(ref(db, `manual/${mk}`), { ...existing, reviewGoogle:google, reviewKlook:klook, reviewKkday:kkday, updatedAt: new Date().toISOString() });
+  alert('✅ 리뷰 저장됐어요!');
+  renderOverview();
+};
+
+// ── 총괄 렌더 ──
+function renderOverview(){
+  renderTrend();
+  renderKPI();
+  loadManualInputs();
+  renderReviewDiffs();
+}
+
+// 월별 추이 (최근 6개월)
+function renderTrend(){
+  const months = [];
+  for(let i=5;i>=0;i--){
+    let m = viewMonth-i;
+    let y = viewYear;
+    if(m<0){ m+=12; y--; }
+    months.push({y,m});
+  }
+  const maxV = Math.max(...months.map(({y,m})=>{
+    const mk = monthKey(y,m);
+    return Object.entries(allEntries).filter(([k])=>k.startsWith(mk)).reduce((a,[,e])=>a+(e.total||0),0);
+  }), 1);
+
+  let html='';
+  months.forEach(({y,m})=>{
+    const mk = monthKey(y,m);
+    const total = Object.entries(allEntries).filter(([k])=>k.startsWith(mk)).reduce((a,[,e])=>a+(e.total||0),0);
+    const pct = Math.round(total/maxV*100);
+    const isThis = y===viewYear && m===viewMonth;
+    html += `<div class="trend-bar-col">
+      <div class="trend-bar-val">${total||''}</div>
+      <div class="trend-bar" style="height:${pct}%;background:${isThis?'var(--gold)':'var(--green)'};opacity:${isThis?1:0.5}"></div>
+      <div class="trend-bar-lbl">${m+1}월</div>
+    </div>`;
+  });
+  document.getElementById('trendBars').innerHTML = html;
+}
+
+// 이달 KPI
+function renderKPI(){
+  const mk = monthKey(viewYear, viewMonth);
+  const prevMk = monthKey(viewMonth===0?viewYear-1:viewYear, viewMonth===0?11:viewMonth-1);
+
+  const thisEntries = Object.entries(allEntries).filter(([k])=>k.startsWith(mk)).map(([,v])=>v);
+  const prevEntries = Object.entries(allEntries).filter(([k])=>k.startsWith(prevMk)).map(([,v])=>v);
+
+  const thisTotal = thisEntries.reduce((a,e)=>a+(e.total||0),0);
+  const prevTotal = prevEntries.reduce((a,e)=>a+(e.total||0),0);
+  const thisPay   = thisEntries.reduce((a,e)=>a+(e.pay||0),0);
+  const prevPay   = prevEntries.reduce((a,e)=>a+(e.pay||0),0);
+  const thisKlook = thisEntries.reduce((a,e)=>a+(e.klook||0),0);
+  const thisInsta = thisEntries.reduce((a,e)=>a+(e.insta||0)+(e.wa||0),0);
+  const days = thisEntries.length;
+  const avg = days ? (thisTotal/days).toFixed(1) : 0;
+
+  const thisMeta = allManual[mk] || {};
+  const prevMeta = allManual[prevMk] || {};
+
+  function diffBadge(cur, prev){
+    if(!prev) return `<span class="kpi-badge same">—</span>`;
+    const d = cur-prev;
+    const sign = d>=0?'+':'';
+    return `<span class="kpi-badge ${d>=0?'up':'same'}">${sign}${d}</span>`;
+  }
+
+  document.getElementById('kpiGrid').innerHTML = `
+    <div class="kpi-card">
+      <div class="kpi-top"><span class="kpi-icon">👥</span>${diffBadge(thisTotal,prevTotal)}</div>
+      <div class="kpi-num">${thisTotal}<span class="kpi-unit"> 명</span></div>
+      <div class="kpi-lbl">이달 총 방문객</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-top"><span class="kpi-icon">📅</span><span class="kpi-badge same">${days}일</span></div>
+      <div class="kpi-num">${avg}<span class="kpi-unit"> 명/일</span></div>
+      <div class="kpi-lbl">일 평균 방문객</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-top"><span class="kpi-icon">💰</span>${diffBadge(thisPay,prevPay)}</div>
+      <div class="kpi-num">${(thisPay/10000).toFixed(0)}<span class="kpi-unit"> 만원</span></div>
+      <div class="kpi-lbl">직접결제 합계</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-top"><span class="kpi-icon">💌</span>${diffBadge(thisMeta.sub||0,prevMeta.sub||0)}</div>
+      <div class="kpi-num">$${thisMeta.sub||0}<span class="kpi-unit"></span></div>
+      <div class="kpi-lbl">구독 수익</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-top"><span class="kpi-icon">🟠</span><span class="kpi-badge same">Klook</span></div>
+      <div class="kpi-num">${thisKlook}<span class="kpi-unit"> 명</span></div>
+      <div class="kpi-lbl">클룩 방문객</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-top"><span class="kpi-icon">📸</span>${diffBadge(thisMeta.insta||0,prevMeta.insta||0)}</div>
+      <div class="kpi-num">${(thisMeta.insta||0).toLocaleString()}<span class="kpi-unit"> 명</span></div>
+      <div class="kpi-lbl">인스타 팔로워</div>
+    </div>`;
+}
+
+// 수동 입력 필드 로드
+function loadManualInputs(){
+  const mk = monthKey(viewYear, viewMonth);
+  const data = allManual[mk] || {};
+  document.getElementById('m-sub').value   = data.sub   || '';
+  document.getElementById('m-insta').value = data.insta || '';
+  document.getElementById('r-google').value    = data.reviewGoogle || '';
+  document.getElementById('r-klook-rev').value = data.reviewKlook  || '';
+  document.getElementById('r-kkday-rev').value = data.reviewKkday  || '';
+}
+
+// 리뷰 증가분 계산
+function renderReviewDiffs(){
+  const mk = monthKey(viewYear, viewMonth);
+  const prevMk = monthKey(viewMonth===0?viewYear-1:viewYear, viewMonth===0?11:viewMonth-1);
+  const cur  = allManual[mk]     || {};
+  const prev = allManual[prevMk] || {};
+
+  function setDiff(id, cur, prev){
+    const el = document.getElementById(id);
+    if(!prev || !cur){ el.textContent='—'; el.className='review-diff none'; return; }
+    const d = cur-prev;
+    el.textContent = d>0 ? `+${d}` : `${d}`;
+    el.className = `review-diff ${d>0?'up':'none'}`;
+  }
+  setDiff('diff-google', cur.reviewGoogle, prev.reviewGoogle);
+  setDiff('diff-klook',  cur.reviewKlook,  prev.reviewKlook);
+  setDiff('diff-kkday',  cur.reviewKkday,  prev.reviewKkday);
 }
 
 // ── 주차 계산 ──
-function getWeekNum(dateStr) {
-  const d = new Date(dateStr);
-  const day = d.getDate();
-  if (day <= 6) return 1;
-  if (day <= 13) return 2;
-  if (day <= 20) return 3;
-  if (day <= 27) return 4;
-  return 5;
+function getWeekNum(dateStr){
+  const d=parseInt(dateStr.split('-')[2]);
+  if(d<=6)return 1; if(d<=13)return 2; if(d<=20)return 3; if(d<=27)return 4; return 5;
 }
-function weekLabel(wn, year, month) {
-  const starts = [1,7,14,21,28];
-  const ends   = [6,13,20,27, new Date(year,month+1,0).getDate()];
-  const m = month+1;
-  return `${wn}주차 · ${m}/${starts[wn-1]} ~ ${m}/${ends[wn-1]}`;
+function weekLabel(wn,year,month){
+  const starts=[1,7,14,21,28];
+  const ends=[6,13,20,27,new Date(year,month+1,0).getDate()];
+  return `${wn}주차 · ${month+1}/${starts[wn-1]} ~ ${month+1}/${ends[wn-1]}`;
 }
 
 // ── 기록 렌더 ──
-function renderLog() {
-  const mk = monthKey();
-  const MO = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
-  document.getElementById('logMonthLabel').textContent = `${viewYear}년 ${MO[viewMonth]}`;
-
-  const entries = Object.entries(allEntries).filter(([k]) => k.startsWith(mk)).sort();
-
-  // 월 통계
-  let totalVisit=0, totalPay=0, days=0;
-  entries.forEach(([,e]) => { totalVisit+=e.total||0; totalPay+=e.pay||0; days++; });
-  const avg = days ? (totalVisit/days).toFixed(1) : 0;
-  document.getElementById('logStats').innerHTML = `
+function renderLog(){
+  const mk = monthKey(viewYear,viewMonth);
+  document.getElementById('logMonthLabel').textContent=`${viewYear}년 ${MO[viewMonth]}`;
+  const entries=Object.entries(allEntries).filter(([k])=>k.startsWith(mk)).sort();
+  let totalVisit=0,totalPay=0,days=0;
+  entries.forEach(([,e])=>{ totalVisit+=e.total||0; totalPay+=e.pay||0; days++; });
+  const avg=days?(totalVisit/days).toFixed(1):0;
+  document.getElementById('logStats').innerHTML=`
     <div class="stat-card"><div class="stat-num" style="color:var(--green)">${totalVisit}</div><div class="stat-lbl">총 방문</div></div>
     <div class="stat-card"><div class="stat-num" style="color:var(--gold)">${avg}</div><div class="stat-lbl">일 평균</div></div>
     <div class="stat-card"><div class="stat-num" style="color:var(--mid);font-size:16px">${(totalPay/10000).toFixed(0)}만원</div><div class="stat-lbl">직접결제</div></div>`;
-
-  if (!entries.length) { document.getElementById('logWeeks').innerHTML='<div class="no-data">📭 이 달 기록이 없어요</div>'; return; }
-
-  // 주차별 그룹핑
-  const weeks = {};
-  entries.forEach(([k,e]) => {
-    const wn = getWeekNum(k);
-    if (!weeks[wn]) weeks[wn]=[];
-    weeks[wn].push([k,e]);
-  });
-
-  const DAYS = ['일','월','화','수','목','금','토'];
-  let html = '';
-  Object.keys(weeks).sort().forEach(wn => {
-    html += `<div class="week-section"><div class="week-hdr">《 ${weekLabel(+wn, viewYear, viewMonth)} 》</div>`;
-    weeks[wn].forEach(([k,e]) => {
-      const d = new Date(k);
-      const dow = DAYS[d.getDay()];
-      const tags = [
-        e.klook  ? `<span class="dtag dtag-klook">클룩 ${e.klook}</span>` : '',
-        e.kkday  ? `<span class="dtag dtag-kkday">KKday ${e.kkday}</span>` : '',
-        e.insta  ? `<span class="dtag dtag-insta">인스타 ${e.insta}</span>` : '',
-        e.wa     ? `<span class="dtag dtag-wa">WA ${e.wa}</span>` : '',
-        e.walkin ? `<span class="dtag dtag-walkin">워크인 ${e.walkin}</span>` : '',
-        e.tel    ? `<span class="dtag dtag-tel">전화 ${e.tel}</span>` : '',
+  if(!entries.length){ document.getElementById('logWeeks').innerHTML='<div class="no-data">📭 이 달 기록이 없어요</div>'; return; }
+  const weeks={};
+  entries.forEach(([k,e])=>{ const wn=getWeekNum(k); if(!weeks[wn])weeks[wn]=[]; weeks[wn].push([k,e]); });
+  const DAYS=['일','월','화','수','목','금','토'];
+  let html='';
+  Object.keys(weeks).sort().forEach(wn=>{
+    html+=`<div class="week-section"><div class="week-hdr">《 ${weekLabel(+wn,viewYear,viewMonth)} 》</div>`;
+    weeks[wn].forEach(([k,e])=>{
+      const d=new Date(k); const dow=DAYS[d.getDay()];
+      const tags=[
+        e.klook ?`<span class="dtag dtag-klook">클룩 ${e.klook}</span>`:'',
+        e.kkday ?`<span class="dtag dtag-kkday">KKday ${e.kkday}</span>`:'',
+        e.insta ?`<span class="dtag dtag-insta">인스타 ${e.insta}</span>`:'',
+        e.wa    ?`<span class="dtag dtag-wa">WA ${e.wa}</span>`:'',
+        e.walkin?`<span class="dtag dtag-walkin">워크인 ${e.walkin}</span>`:'',
+        e.tel   ?`<span class="dtag dtag-tel">전화 ${e.tel}</span>`:'',
       ].filter(Boolean).join('');
-      html += `<div class="day-row">
+      html+=`<div class="day-row">
         <div class="day-date">${d.getDate()}일(${dow})</div>
         <div class="day-tags">${tags||'<span style="font-size:11px;color:var(--border)">-</span>'}</div>
         <div class="day-total">${e.total||0}명</div>
-        ${e.pay ? `<div class="day-pay">${e.pay.toLocaleString()}원</div>` : ''}
+        ${e.pay?`<div class="day-pay">${e.pay.toLocaleString()}원</div>`:''}
       </div>`;
     });
-    html += '</div>';
+    html+='</div>';
   });
-  document.getElementById('logWeeks').innerHTML = html;
+  document.getElementById('logWeeks').innerHTML=html;
 }
 
 // ── 분석 렌더 ──
-function renderStats() {
-  const mk = monthKey();
-  const MO = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
-  document.getElementById('statsMonthLabel').textContent = `${viewYear}년 ${MO[viewMonth]}`;
-
-  const entries = Object.values(allEntries).filter((e,i) => {
-    const k = Object.keys(allEntries)[i];
-    return k && k.startsWith(mk);
-  });
-  // 더 정확한 필터
-  const filteredEntries = Object.entries(allEntries).filter(([k]) => k.startsWith(mk)).map(([,v])=>v);
-
-  const routes = {
-    '🟠 Klook':    { key:'klook',  color:'#FF6600', cnt:0 },
-    '🔵 KKday':    { key:'kkday',  color:'#5B7FA6', cnt:0 },
-    '🔴 인스타DM': { key:'insta',  color:'#C2185B', cnt:0 },
-    '🟢 WhatsApp': { key:'wa',     color:'#25D366', cnt:0 },
-    '🟤 워크인':   { key:'walkin', color:'#4A7C59', cnt:0 },
-    '⚫ 전화/기타': { key:'tel',    color:'#7A726A', cnt:0 },
+function renderStats(){
+  const mk=monthKey(viewYear,viewMonth);
+  document.getElementById('statsMonthLabel').textContent=`${viewYear}년 ${MO[viewMonth]}`;
+  const filteredEntries=Object.entries(allEntries).filter(([k])=>k.startsWith(mk)).map(([,v])=>v);
+  const routes={
+    '🟠 Klook':    {key:'klook', color:'#FF6600',cnt:0},
+    '🔵 KKday':    {key:'kkday', color:'#5B7FA6',cnt:0},
+    '🔴 인스타DM': {key:'insta', color:'#C2185B',cnt:0},
+    '🟢 WhatsApp': {key:'wa',    color:'#25D366',cnt:0},
+    '🟤 워크인':   {key:'walkin',color:'#4A7C59',cnt:0},
+    '⚫ 전화/기타':{key:'tel',   color:'#7A726A',cnt:0},
   };
-  let totalPay=0, payCnt=0;
-  filteredEntries.forEach(e => {
-    Object.values(routes).forEach(r => r.cnt += (e[r.key]||0));
-    totalPay += e.pay||0;
-    if (e.pay) payCnt++;
+  let totalPay=0,payCnt=0;
+  filteredEntries.forEach(e=>{
+    Object.values(routes).forEach(r=>r.cnt+=(e[r.key]||0));
+    totalPay+=e.pay||0; if(e.pay)payCnt++;
   });
-
-  const maxCnt = Math.max(...Object.values(routes).map(r=>r.cnt), 1);
-  let barHtml = '';
-  Object.entries(routes).forEach(([name, r]) => {
-    const pct = Math.round(r.cnt/maxCnt*100);
-    barHtml += `<div class="rbar-row">
+  const maxCnt=Math.max(...Object.values(routes).map(r=>r.cnt),1);
+  let barHtml='';
+  Object.entries(routes).forEach(([name,r])=>{
+    const pct=Math.round(r.cnt/maxCnt*100);
+    barHtml+=`<div class="rbar-row">
       <div class="rbar-name" style="font-size:11px">${name}</div>
       <div class="rbar-track"><div class="rbar-fill" style="width:${pct}%;background:${r.color}"></div></div>
       <div class="rbar-cnt">${r.cnt}</div>
     </div>`;
   });
-  document.getElementById('routeBars').innerHTML = barHtml || '<div class="no-data">데이터 없음</div>';
-
-  const avgPay = payCnt ? Math.round(totalPay/payCnt) : 0;
-  document.getElementById('payStats').innerHTML = `
+  document.getElementById('routeBars').innerHTML=barHtml||'<div class="no-data">데이터 없음</div>';
+  const avgPay=payCnt?Math.round(totalPay/payCnt):0;
+  document.getElementById('payStats').innerHTML=`
     <div style="display:flex;flex-direction:column;gap:10px">
       <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border)">
         <span style="font-size:13px;color:var(--mid)">직접결제 총액</span>
@@ -450,230 +706,132 @@ function renderStats() {
         <span style="font-size:18px;font-weight:700;color:var(--mid)">${avgPay.toLocaleString()}원</span>
       </div>
       <div style="font-size:11px;color:var(--mid);margin-top:4px;padding:10px;background:var(--gold-bg);border-radius:8px">
-        💡 클룩·KKday 정산금은 플랫폼 대시보드에서 월별로 확인 후 「플랫폼정산」탭에 별도 기록하세요
+        💡 클룩·KKday 정산금은 플랫폼 대시보드에서 월별로 확인 후 별도 기록하세요
       </div>
     </div>`;
 }
 
-// ── 1주차 초기 데이터 삽입 (최초 1회) ──
-async function seedWeek1() {
-  const snap = await get(ref(db, 'sales/2026-04-01'));
-  if (snap.exists()) return; // 이미 있으면 스킵
-
-  const week1 = {
-    "2026-04-01": {klook:2,kkday:0,insta:0,wa:0,walkin:0,tel:0,pay:0,memo:"",total:2},
-    "2026-04-02": {klook:2,kkday:0,insta:0,wa:0,walkin:1,tel:0,pay:110000,memo:"워크인 현장결제",total:3},
-    "2026-04-03": {klook:2,kkday:0,insta:0,wa:0,walkin:0,tel:1,pay:110000,memo:"전화예약",total:3},
-    "2026-04-04": {klook:2,kkday:0,insta:0,wa:0,walkin:0,tel:0,pay:0,memo:"",total:2},
-    "2026-04-05": {klook:2,kkday:0,insta:1,wa:0,walkin:0,tel:0,pay:110000,memo:"인스타 DM",total:3},
-    "2026-04-06": {klook:2,kkday:0,insta:0,wa:0,walkin:1,tel:1,pay:220000,memo:"",total:4},
+// ── 초기 데이터 ──
+async function seedWeek1(){
+  const snap=await get(ref(db,'sales/2026-04-01'));
+  if(snap.exists())return;
+  const week1={
+    "2026-04-01":{klook:2,kkday:0,insta:0,wa:0,walkin:0,tel:0,pay:0,memo:"",total:2},
+    "2026-04-02":{klook:2,kkday:0,insta:0,wa:0,walkin:1,tel:0,pay:110000,memo:"워크인 현장결제",total:3},
+    "2026-04-03":{klook:2,kkday:0,insta:0,wa:0,walkin:0,tel:1,pay:110000,memo:"전화예약",total:3},
+    "2026-04-04":{klook:2,kkday:0,insta:0,wa:0,walkin:0,tel:0,pay:0,memo:"",total:2},
+    "2026-04-05":{klook:2,kkday:0,insta:1,wa:0,walkin:0,tel:0,pay:110000,memo:"인스타 DM",total:3},
+    "2026-04-06":{klook:2,kkday:0,insta:0,wa:0,walkin:1,tel:1,pay:220000,memo:"",total:4},
   };
-  for (const [k,v] of Object.entries(week1)) {
-    await set(ref(db, `sales/${k}`), {...v, savedAt: new Date().toISOString()});
-  }
+  for(const[k,v]of Object.entries(week1)) await set(ref(db,`sales/${k}`),{...v,savedAt:new Date().toISOString()});
 }
 seedWeek1();
-
-renderLog(); renderStats();
+renderLog(); renderStats(); renderOverview();
 </script>
 
-<!-- ExcelJS for browser-side xlsx export -->
 <script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
 <script>
-window.exportExcel = async function() {
-  const btn = document.getElementById('btnExcel');
-  btn.textContent = '⏳ 생성 중...';
-  btn.disabled = true;
-
-  try {
-    const wb = new ExcelJS.Workbook();
-    wb.creator = 'Laurel Studio';
-
-    // ── 월 정보 ──
-    const MO = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
-    const mk = `${viewYear}-${String(viewMonth+1).padStart(2,'0')}`;
-    const monthName = `${viewYear}년 ${MO[viewMonth]}`;
-
-    // ── 시트1: 일별 매출 ──
-    const ws = wb.addWorksheet('일별매출_' + mk);
-    ws.views = [{ showGridLines: false }];
-
-    // 타이틀
+window.exportExcel = async function(){
+  const btn=document.getElementById('btnExcel');
+  btn.textContent='⏳ 생성 중...'; btn.disabled=true;
+  try{
+    const wb=new ExcelJS.Workbook();
+    wb.creator='Laurel Studio';
+    const MO=['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
+    const mk=`${viewYear}-${String(viewMonth+1).padStart(2,'0')}`;
+    const monthName=`${viewYear}년 ${MO[viewMonth]}`;
+    const ws=wb.addWorksheet('일별매출_'+mk);
+    ws.views=[{showGridLines:false}];
     ws.mergeCells('A1:K1');
-    const titleCell = ws.getCell('A1');
-    titleCell.value = `Laurel Studio — 매출 장부 ${monthName}`;
-    titleCell.fill = { type:'pattern', pattern:'solid', fgColor:{argb:'FF1C1917'} };
-    titleCell.font = { bold:true, color:{argb:'FFF4F1EC'}, size:14, name:'Arial' };
-    titleCell.alignment = { horizontal:'center', vertical:'middle' };
-    ws.getRow(1).height = 30;
-
-    // 헤더
-    const headers = ['날짜','요일','클룩','KKday','인스타DM','WhatsApp','워크인','전화/기타','총방문','직접결제(원)','메모'];
-    const hBgs    = ['1C1917','1C1917','FF6600','5B7FA6','C2185B','25D366','4A7C59','7A726A','1C1917','C9A84C','1C1917'];
-    const hWidths = [12,7,8,8,10,10,9,10,9,16,22];
-    headers.forEach((h,i) => {
-      const col = String.fromCharCode(65+i);
-      const cell = ws.getCell(`${col}2`);
-      cell.value = h;
-      cell.fill = { type:'pattern', pattern:'solid', fgColor:{argb:'FF'+hBgs[i]} };
-      cell.font = { bold:true, color:{argb:'FFFFFFFF'}, size:9, name:'Arial' };
-      cell.alignment = { horizontal:'center', vertical:'middle', wrapText:true };
-      cell.border = { top:{style:'thin',color:{argb:'FFE5DDD5'}}, bottom:{style:'thin',color:{argb:'FFE5DDD5'}}, left:{style:'thin',color:{argb:'FFE5DDD5'}}, right:{style:'thin',color:{argb:'FFE5DDD5'}} };
-      ws.getColumn(i+1).width = hWidths[i];
+    const titleCell=ws.getCell('A1');
+    titleCell.value=`Laurel Studio — 매출 장부 ${monthName}`;
+    titleCell.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF1C1917'}};
+    titleCell.font={bold:true,color:{argb:'FFF4F1EC'},size:14,name:'Arial'};
+    titleCell.alignment={horizontal:'center',vertical:'middle'};
+    ws.getRow(1).height=30;
+    const headers=['날짜','요일','클룩','KKday','인스타DM','WhatsApp','워크인','전화/기타','총방문','직접결제(원)','메모'];
+    const hBgs=['1C1917','1C1917','FF6600','5B7FA6','C2185B','25D366','4A7C59','7A726A','1C1917','C9A84C','1C1917'];
+    const hWidths=[12,7,8,8,10,10,9,10,9,16,22];
+    headers.forEach((h,i)=>{
+      const col=String.fromCharCode(65+i);
+      const cell=ws.getCell(`${col}2`);
+      cell.value=h; cell.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF'+hBgs[i]}};
+      cell.font={bold:true,color:{argb:'FFFFFFFF'},size:9,name:'Arial'};
+      cell.alignment={horizontal:'center',vertical:'middle',wrapText:true};
+      cell.border={top:{style:'thin',color:{argb:'FFE5DDD5'}},bottom:{style:'thin',color:{argb:'FFE5DDD5'}},left:{style:'thin',color:{argb:'FFE5DDD5'}},right:{style:'thin',color:{argb:'FFE5DDD5'}}};
+      ws.getColumn(i+1).width=hWidths[i];
     });
-    ws.getRow(2).height = 22;
-
-    // 날짜별 데이터
-    const DAYS = ['일','월','화','수','목','금','토'];
-    const daysInMonth = new Date(viewYear, viewMonth+1, 0).getDate();
-    let dataRow = 3;
-    let prevWeek = 0;
-
-    for (let d = 1; d <= daysInMonth; d++) {
-      const dt = new Date(viewYear, viewMonth, d);
-      const dow = dt.getDay();
-      const key = `${viewYear}-${String(viewMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-      const wn = d<=6?1:d<=13?2:d<=20?3:d<=27?4:5;
-
-      // 주차 구분행
-      if (wn !== prevWeek) {
-        prevWeek = wn;
+    ws.getRow(2).height=22;
+    const DAYS=['일','월','화','수','목','금','토'];
+    const daysInMonth=new Date(viewYear,viewMonth+1,0).getDate();
+    let dataRow=3,prevWeek=0;
+    for(let d=1;d<=daysInMonth;d++){
+      const dt=new Date(viewYear,viewMonth,d);
+      const dow=dt.getDay();
+      const key=`${viewYear}-${String(viewMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+      const wn=d<=6?1:d<=13?2:d<=20?3:d<=27?4:5;
+      if(wn!==prevWeek){
+        prevWeek=wn;
         ws.mergeCells(`A${dataRow}:K${dataRow}`);
-        const wc = ws.getCell(`A${dataRow}`);
-        wc.value = `  《 ${wn}주차 》`;
-        wc.fill = { type:'pattern', pattern:'solid', fgColor:{argb:'FF4A7C59'} };
-        wc.font = { bold:true, color:{argb:'FFFFFFFF'}, size:9, name:'Arial' };
-        wc.alignment = { horizontal:'left', vertical:'middle' };
-        ws.getRow(dataRow).height = 15;
-        dataRow++;
+        const wc=ws.getCell(`A${dataRow}`);
+        wc.value=`  《 ${wn}주차 》`;
+        wc.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF4A7C59'}};
+        wc.font={bold:true,color:{argb:'FFFFFFFF'},size:9,name:'Arial'};
+        wc.alignment={horizontal:'left',vertical:'middle'};
+        ws.getRow(dataRow).height=15; dataRow++;
       }
-
-      const e = allEntries[key] || {};
-      const bg = dow >= 5 ? 'FFFFF8E8' : (wn%2===1 ? 'FFFFFFFF' : 'FFF7FBF8');
-      const brd = { top:{style:'thin',color:{argb:'FFE5DDD5'}}, bottom:{style:'thin',color:{argb:'FFE5DDD5'}}, left:{style:'thin',color:{argb:'FFE5DDD5'}}, right:{style:'thin',color:{argb:'FFE5DDD5'}} };
-      const setCell = (col, val, bold=false, color='FF000000', fmt=null) => {
-        const c = ws.getCell(`${col}${dataRow}`);
-        c.value = val ?? '';
-        c.fill = { type:'pattern', pattern:'solid', fgColor:{argb:bg} };
-        c.font = { bold, color:{argb:color}, size:10, name:'Arial' };
-        c.alignment = { horizontal:'center', vertical:'middle' };
-        c.border = brd;
-        if (fmt) c.numFmt = fmt;
+      const e=allEntries[key]||{};
+      const bg=dow>=5?'FFFFF8E8':(wn%2===1?'FFFFFFFF':'FFF7FBF8');
+      const brd={top:{style:'thin',color:{argb:'FFE5DDD5'}},bottom:{style:'thin',color:{argb:'FFE5DDD5'}},left:{style:'thin',color:{argb:'FFE5DDD5'}},right:{style:'thin',color:{argb:'FFE5DDD5'}}};
+      const setCell=(col,val,bold=false,color='FF000000',fmt=null)=>{
+        const c=ws.getCell(`${col}${dataRow}`);
+        c.value=val??''; c.fill={type:'pattern',pattern:'solid',fgColor:{argb:bg}};
+        c.font={bold,color:{argb:color},size:10,name:'Arial'};
+        c.alignment={horizontal:'center',vertical:'middle'}; c.border=brd;
+        if(fmt)c.numFmt=fmt;
       };
-
-      setCell('A', `${viewMonth+1}/${d}`);
-      setCell('B', DAYS[dow], dow>=5, dow===0?'FFB94040':(dow===6?'FF1565C0':'FF000000'));
-      setCell('C', e.klook||'');
-      setCell('D', e.kkday||'');
-      setCell('E', e.insta||'');
-      setCell('F', e.wa||'');
-      setCell('G', e.walkin||'');
-      setCell('H', e.tel||'');
-      setCell('I', e.total||0, true);
-      if (e.pay) setCell('J', e.pay, true, 'FF4A7C59', '#,##0"원"');
-      else setCell('J', '');
-      setCell('K', e.memo||'');
-      ws.getCell(`K${dataRow}`).alignment = { horizontal:'left', vertical:'middle' };
-      ws.getRow(dataRow).height = 18;
-      dataRow++;
+      setCell('A',`${viewMonth+1}/${d}`);
+      setCell('B',DAYS[dow],dow>=5,dow===0?'FFB94040':(dow===6?'FF1565C0':'FF000000'));
+      setCell('C',e.klook||''); setCell('D',e.kkday||''); setCell('E',e.insta||'');
+      setCell('F',e.wa||''); setCell('G',e.walkin||''); setCell('H',e.tel||'');
+      setCell('I',e.total||0,true);
+      if(e.pay)setCell('J',e.pay,true,'FF4A7C59','#,##0"원"'); else setCell('J','');
+      setCell('K',e.memo||'');
+      ws.getCell(`K${dataRow}`).alignment={horizontal:'left',vertical:'middle'};
+      ws.getRow(dataRow).height=18; dataRow++;
     }
-
-    // 합계행
     ws.mergeCells(`A${dataRow}:B${dataRow}`);
-    const sumCell = ws.getCell(`A${dataRow}`);
-    sumCell.value = `📊 ${monthName} 합계`;
-    sumCell.fill = { type:'pattern', pattern:'solid', fgColor:{argb:'FF1C1917'} };
-    sumCell.font = { bold:true, color:{argb:'FFC9A84C'}, size:11, name:'Arial' };
-    sumCell.alignment = { horizontal:'center', vertical:'middle' };
-    const totals = { C:0, D:0, E:0, F:0, G:0, H:0, I:0, J:0 };
+    const sumCell=ws.getCell(`A${dataRow}`);
+    sumCell.value=`📊 ${monthName} 합계`;
+    sumCell.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF1C1917'}};
+    sumCell.font={bold:true,color:{argb:'FFC9A84C'},size:11,name:'Arial'};
+    sumCell.alignment={horizontal:'center',vertical:'middle'};
+    const totals={C:0,D:0,E:0,F:0,G:0,H:0,I:0,J:0};
     Object.entries(allEntries).filter(([k])=>k.startsWith(mk)).forEach(([,e])=>{
       totals.C+=e.klook||0; totals.D+=e.kkday||0; totals.E+=e.insta||0;
       totals.F+=e.wa||0; totals.G+=e.walkin||0; totals.H+=e.tel||0;
       totals.I+=e.total||0; totals.J+=e.pay||0;
     });
-    ['C','D','E','F','G','H','I','J'].forEach(col => {
-      const c = ws.getCell(`${col}${dataRow}`);
-      c.value = totals[col];
-      c.fill = { type:'pattern', pattern:'solid', fgColor:{argb:'FF1C1917'} };
-      c.font = { bold:true, color:{argb:'FFC9A84C'}, size:11, name:'Arial' };
-      c.alignment = { horizontal:'center', vertical:'middle' };
-      if (col==='J') c.numFmt = '#,##0"원"';
+    ['C','D','E','F','G','H','I','J'].forEach(col=>{
+      const c=ws.getCell(`${col}${dataRow}`);
+      c.value=totals[col]; c.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF1C1917'}};
+      c.font={bold:true,color:{argb:'FFC9A84C'},size:11,name:'Arial'};
+      c.alignment={horizontal:'center',vertical:'middle'};
+      if(col==='J')c.numFmt='#,##0"원"';
     });
-    ws.getCell(`K${dataRow}`).fill = { type:'pattern', pattern:'solid', fgColor:{argb:'FF1C1917'} };
-    ws.getRow(dataRow).height = 24;
-
-    // ── 시트2: 주차별 요약 ──
-    const ws2 = wb.addWorksheet('주차별요약');
-    ws2.views = [{ showGridLines: false }];
-
-    ws2.mergeCells('A1:G1');
-    const t2 = ws2.getCell('A1');
-    t2.value = `Laurel Studio — 주차별 요약 ${monthName}`;
-    t2.fill = { type:'pattern', pattern:'solid', fgColor:{argb:'FF1C1917'} };
-    t2.font = { bold:true, color:{argb:'FFF4F1EC'}, size:13, name:'Arial' };
-    t2.alignment = { horizontal:'center', vertical:'middle' };
-    ws2.getRow(1).height = 28;
-
-    const h2 = ['주차','기간','클룩','KKday','인스타+WA','워크인+전화','총방문','직접결제'];
-    const h2Bg = ['1C1917','1C1917','FF6600','5B7FA6','C2185B','4A7C59','1C1917','C9A84C'];
-    const w2 = [10,20,9,9,12,14,10,16];
-    h2.forEach((h,i)=>{
-      const c = ws2.getCell(2, i+1);
-      c.value = h;
-      c.fill = { type:'pattern', pattern:'solid', fgColor:{argb:'FF'+h2Bg[i]} };
-      c.font = { bold:true, color:{argb:'FFFFFFFF'}, size:9, name:'Arial' };
-      c.alignment = { horizontal:'center', vertical:'middle' };
-      ws2.getColumn(i+1).width = w2[i];
-    });
-    ws2.getRow(2).height = 20;
-
-    const weekRanges = [[1,6],[7,13],[14,20],[21,27],[28,daysInMonth]];
-    weekRanges.forEach(([s,e], wi) => {
-      const wEntries = Object.entries(allEntries).filter(([k])=>{
-        if (!k.startsWith(mk)) return false;
-        const d = parseInt(k.split('-')[2]);
-        return d>=s && d<=e;
-      }).map(([,v])=>v);
-      const bg = wi%2===0 ? 'FFF4F1EC' : 'FFEBF4EE';
-      const row = wi+3;
-      const vals = [
-        `${wi+1}주차`,
-        `${viewMonth+1}/${s} ~ ${viewMonth+1}/${e}`,
-        wEntries.reduce((a,v)=>a+(v.klook||0),0),
-        wEntries.reduce((a,v)=>a+(v.kkday||0),0),
-        wEntries.reduce((a,v)=>a+(v.insta||0)+(v.wa||0),0),
-        wEntries.reduce((a,v)=>a+(v.walkin||0)+(v.tel||0),0),
-        wEntries.reduce((a,v)=>a+(v.total||0),0),
-        wEntries.reduce((a,v)=>a+(v.pay||0),0),
-      ];
-      vals.forEach((val,ci)=>{
-        const c = ws2.getCell(row, ci+1);
-        c.value = val;
-        c.fill = { type:'pattern', pattern:'solid', fgColor:{argb:bg} };
-        c.font = { bold:ci===6, color:{argb:ci===7?'FF4A7C59':'FF000000'}, size:10, name:'Arial' };
-        c.alignment = { horizontal: ci<=1?'left':'center', vertical:'middle' };
-        c.border = { top:{style:'thin',color:{argb:'FFE5DDD5'}}, bottom:{style:'thin',color:{argb:'FFE5DDD5'}}, left:{style:'thin',color:{argb:'FFE5DDD5'}}, right:{style:'thin',color:{argb:'FFE5DDD5'}} };
-        if (ci===7) c.numFmt = '#,##0"원"';
-      });
-      ws2.getRow(row).height = 20;
-    });
-
-    // 다운로드
-    const buf = await wb.xlsx.writeBuffer();
-    const blob = new Blob([buf], { type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `로렐스튜디오_매출장부_${mk}.xlsx`;
-    a.click();
+    ws.getCell(`K${dataRow}`).fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF1C1917'}};
+    ws.getRow(dataRow).height=24;
+    const buf=await wb.xlsx.writeBuffer();
+    const blob=new Blob([buf],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a'); a.href=url;
+    a.download=`로렐스튜디오_매출장부_${mk}.xlsx`; a.click();
     URL.revokeObjectURL(url);
-
-    btn.textContent = '✅ 다운로드 완료!';
-    setTimeout(() => { btn.textContent='📥 이달 엑셀 다운로드'; btn.disabled=false; }, 2500);
-  } catch(err) {
+    btn.textContent='✅ 다운로드 완료!';
+    setTimeout(()=>{btn.textContent='📥 이달 엑셀 다운로드';btn.disabled=false;},2500);
+  }catch(err){
     console.error(err);
-    btn.textContent = '❌ 오류 — 다시 시도';
-    btn.disabled = false;
+    btn.textContent='❌ 오류 — 다시 시도'; btn.disabled=false;
   }
 };
 </script>
